@@ -12,20 +12,20 @@
 		<p:panel header="Registro Notificaciones">
 		<p:panelGrid columns="2">
 			<h:outputText value="Ciudad"/>
-			<p:selectOneMenu id="ciudad" value="#{Notificacionbean.ciudadSeleccionada}" required="true" requiredMessage="Es necesario escoger una Ciudad ">
-				<p:ajax listener="#{Notificacionbean.filtrarEntidades}" update="corporacion"/>
-				<f:selectItem itemLabel="Seleccione" itemValue="" size="40"/>
-				<f:selectItems value="#{Notificacionbean.ciudades}" var = "selecMete" itemLabel="#{selecMete.nombre}" itemValue="#{selecMete.codigo}"/>				
-			</p:selectOneMenu>
+			<h:selectOneMenu id="ciudad" value="#{Notificacionbean.ciudadSeleccionada}" required="true" requiredMessage="Es necesario escoger una Ciudad ">
+				<f:ajax listener="#{Notificacionbean.filtrarEntidades}" render="corporacion"/>
+				<f:selectItem itemLabel="Seleccione" itemValue=""/>
+				<f:selectItems value="#{Notificacionbean.ciudadesNuevas}" />				
+			</h:selectOneMenu>			
 			<h:outputText value="Corporacion o Especialidad" />
-			<p:selectOneMenu id="corporacion" value="#{Notificacionbean.idRelacionEntidad}" size="140" required="true" requiredMessage="Es necesario escoger una Corporacion o Especialidad">
-				<f:selectItem itemLabel="Seleccione " itemValue="" size="140" />  
-	            <f:selectItems value="#{Notificacionbean.idRelacionEntidades}" var="slectRela" itemLabel="#{slectRela.nombre}"  itemValue="#{slectRela.codigo}"/>
-			</p:selectOneMenu> 
+			<h:selectOneMenu id="corporacion" value="#{Notificacionbean.idRelacionEntidad}" size="140" required="true" requiredMessage="Es necesario escoger una Corporacion o Especialidad">
+				<f:selectItem itemLabel="Seleccione " itemValue="" />  
+	            <f:selectItems value="#{Notificacionbean.relacionEntidades}"/>
+			</h:selectOneMenu> 
 			<h:outputText value="Tipo de Actuacion" />
 			<p:selectOneMenu value="#{Notificacionbean.idNotificacionTipo}" required="true" requiredMessage="Es necesario escoger un Tipo de actuacion ">
-				<f:selectItem itemLabel="Seleccione " itemValue="" size="40" />  
-	            <f:selectItems value="#{Notificacionbean.idNotificacionTipos}" var="selecTipo" itemLabel="#{selecTipo.nombre}" itemValue="#{selecTipo.codigo}" />
+				<f:selectItem itemLabel="Seleccione " itemValue="" />  
+	            <f:selectItems value="#{Notificacionbean.notificacionTipos}" />
 			</p:selectOneMenu> 
 			<h:outputText value="Codigo " />
 			<p:inputMask value="#{Notificacionbean.codigo}" mask="9?9999999999999" maxlength="15" size="40" required="true" requiredMessage="Es necesario digitar un Codigo"/> 

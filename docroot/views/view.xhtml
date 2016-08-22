@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<f:view xmlns="http://www.w3.org/1999/xhtml"
+	<f:view xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -24,23 +24,24 @@
 				<br />
 				<p:panelGrid columns="2" width="100%">
 					<h:outputText value="Ciudad"/>
-					<p:selectOneMenu id="ciudad" value="#{Notificacionbean.ciudadSeleccionada}">
-						<p:ajax listener="#{Notificacionbean.filtrarEntidades}" update="corporacion"/>
-						<f:selectItem itemLabel="Seleccione" itemValue="" size="40"/>
-						<f:selectItems value="#{Notificacionbean.ciudades}" var = "selecMete" itemLabel="#{selecMete.nombre}" itemValue="#{selecMete.codigo}"/>				
-					</p:selectOneMenu>
-					<h:outputLabel value="Corporacion o Especialidad" />
-					<p:selectOneMenu id="corporacion" value="#{Notificacionbean.idRelacionEntidad}" size="140">
+					<h:selectOneMenu id="ciudadesSelect" required="false"
+						label="#{i18n['ciudad']}"
+						value="#{Notificacionbean.ciudadSeleccionada}">
+						<f:ajax listener="#{Notificacionbean.filtrarEntidades}" render="corporacion"/>
+						<f:selectItem itemLabel="#{i18n['seleccione']}" />
+						<f:selectItems value="#{Notificacionbean.ciudadesItems}" />
+					</h:selectOneMenu>
+					<h:outputLabel value="Corporacion o Especialidad" />					
+					<h:selectOneMenu id="corporacion" 
+									 value="#{Notificacionbean.idRelacionEntidad}" >
 						<f:selectItem itemLabel="Seleccione " itemValue="" size="140" />  
-			            <f:selectItems value="#{Notificacionbean.idRelacionEntidades}" var="slectRela" itemLabel="#{slectRela.nombre}"  itemValue="#{slectRela.codigo}"/>
-					</p:selectOneMenu>
+			            <f:selectItems value="#{Notificacionbean.relacionEntidades}" />
+					</h:selectOneMenu>
 					<h:outputText value="Tipo de Actuacion" />
-					<p:selectOneMenu value="#{Notificacionbean.idNotificacionTipo}">
+					<h:selectOneMenu value="#{Notificacionbean.idNotificacionTipo}">
 						<f:selectItem itemLabel="Seleccione " itemValue="" />
-						<f:selectItems value="#{Notificacionbean.idNotificacionTipos}"
-							var="selecTipo" itemLabel="#{selecTipo.nombre}"
-							itemValue="#{selecTipo.codigo}" />
-					</p:selectOneMenu>
+						<f:selectItems value="#{Notificacionbean.notificacionTipos}" />
+					</h:selectOneMenu>
 					<h:outputLabel value="Codigo" />
 					<p:inputMask value="#{Notificacionbean.codigo}" mask="9?9999999999999" maxlength="15" size="60" />
 				</p:panelGrid>
@@ -101,26 +102,21 @@
 							<p:panel>
 								<p:panelGrid columns="2">
 									<h:outputText value="Ciudad"/>
-									<p:selectOneMenu id="ciudad" value="#{Notificacionbean.actual.entidad.idCiudad}">
-										<p:ajax listener="#{Notificacionbean.filtrarEntidadesEditar}" update="corporacioneditar"/>
-										<f:selectItem itemLabel="Seleccione" itemValue="" size="40"/>
-										<f:selectItems value="#{Notificacionbean.ciudades}" var = "selecMete" itemLabel="#{selecMete.nombre}" itemValue="#{selecMete.codigo}"/>				
-									</p:selectOneMenu>
+									<h:selectOneMenu id="ciudad" value="#{Notificacionbean.actual.entidad.idCiudad}">
+										<f:ajax listener="#{Notificacionbean.filtrarEntidadesEditar}" render="corporacioneditar"/>
+										<f:selectItem itemLabel="Seleccione" itemValue="" />
+										<f:selectItems value="#{Notificacionbean.ciudadesNuevas}" />				
+									</h:selectOneMenu>
 									<h:outputText value="Corporacion o Especialidad" />
-									<p:selectOneMenu id="corporacioneditar" value="#{Notificacionbean.actual.entidad.codigo}"
-										size="40">
+									<h:selectOneMenu id="corporacioneditar" value="#{Notificacionbean.actual.entidad.codigo}">
 										<f:selectItem itemLabel="Seleccione " itemValue="" size="40" />
-										<f:selectItems value="#{Notificacionbean.idRelacionEntidades}"
-											var="slectRela" itemLabel="#{slectRela.nombre}"
-											itemValue="#{slectRela.codigo}" />
-									</p:selectOneMenu>
+										<f:selectItems value="#{Notificacionbean.relacionEntidades}" />
+									</h:selectOneMenu>
 									<h:outputText value="Tipo Notificacion" />
-									<p:selectOneMenu value="#{Notificacionbean.actual.tipo.codigo}">
-										<f:selectItem itemLabel="Seleccione " itemValue="" size="40" mask="9?999999999" maxlength="11"  />
-										<f:selectItems value="#{Notificacionbean.idNotificacionTipos}"
-											var="selecTipo" itemLabel="#{selecTipo.nombre}"
-											itemValue="#{selecTipo.codigo}" />
-									</p:selectOneMenu>
+									<h:selectOneMenu value="#{Notificacionbean.actual.tipo.codigo}">
+										<f:selectItem itemLabel="Seleccione " itemValue="" />
+										<f:selectItems value="#{Notificacionbean.notificacionTipos}" />
+									</h:selectOneMenu>
 									<h:outputText value="Codigo " />
 									<p:inputMask value="#{Notificacionbean.actual.codigo}" mask="9?9999999999999" maxlength="15"  size="40"/>
 								</p:panelGrid>

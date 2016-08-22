@@ -37,4 +37,38 @@ public class ConexionFactory {
 
 		return conexion;
 	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public static void setUsuario(String usuario) {
+		ConexionFactory.usuario = usuario;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public static void setPassword(String password) {
+		ConexionFactory.password = password;
+	}
+
+	public String getDatabase() {
+		return database;
+	}
+
+	public static void setDatabase(String database) {
+		ConexionFactory.database = database;
+	}
+
+	public String getServer() {
+		return server;
+	}
+
+	public static void setServer(String server) {
+		ConexionFactory.server = server;
+	}
+	
+	
 }

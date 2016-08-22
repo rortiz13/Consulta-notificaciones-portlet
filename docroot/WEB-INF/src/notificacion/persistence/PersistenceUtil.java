@@ -12,6 +12,7 @@ public class PersistenceUtil {
 	private static Statement statement;
 
 	public static ResultSet realizaConsulta(String consulta) throws SQLException, ClassNotFoundException {
+		
 		conection = Conexion.open(Conexion.DATA_SOURCE_PRINCIPAL);	
 		statement = conection.createStatement();
 		resultSet = statement.executeQuery(consulta);
@@ -20,7 +21,7 @@ public class PersistenceUtil {
 	}
 
 	public static void ejecutaSentencia(String consulta) throws SQLException {
-		conection = conexionFactory.getConexion();
+	//	conection = conexionFactory.getConexion();
 		statement = conection.createStatement();
 		statement.execute(consulta);
 		conection.commit();

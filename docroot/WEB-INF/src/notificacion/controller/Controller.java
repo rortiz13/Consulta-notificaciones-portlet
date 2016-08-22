@@ -166,7 +166,8 @@ public static ResultSet selecCiudad(){
 		{
 			String sql = "";
 	        sql = "insert into Notificaciontipo(descripcion) " +
-	              "values('"+descripcion+"')";       
+	              "values('"+descripcion+"')";    
+	        System.out.println("SQL: "+sql);
 	        try
 	        {
 	            PersistenceUtil.ejecutaSentencia(sql);
@@ -175,6 +176,7 @@ public static ResultSet selecCiudad(){
 	        catch(SQLException e)
 	        {
 	            e.printStackTrace();
+	            System.out.println("ERROR: "+e.getMessage());
 	        }
 		}
 }

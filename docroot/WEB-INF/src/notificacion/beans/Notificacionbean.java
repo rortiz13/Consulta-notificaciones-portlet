@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import notificacion.entities.ListaNotificacion;
 import notificacion.entities.selecItem;
@@ -37,15 +38,36 @@ public class Notificacionbean implements Serializable {
 	private String ciudadSeleccionada;
 	private String idRelacionEntidad;
 	private List<selecItem> idNotificacionTipos;
+	private List<SelectItem> notificacionTipos;
 	private List<selecteme> idRelacionEntidades;
+	private List<SelectItem> relacionEntidades;
 	private List<selecteme> idRelacionEntidadesOrg;
+	private List<selecItem> RelacionEntidadesOrg;
 	private List<selecMete> ciudades;
+	private List<SelectItem> ciudadesNuevas;
+	private List<SelectItem> ciudadesItems;
 	private List<ListaNotificacion> listado;
 	private ListaNotificacion actual;
 	private selecMete ciudad;
 	private selecMete ciudadActual;
 	private String descripcion;
 	
+	public List<SelectItem> getCiudadesNuevas() {
+		return ciudadesNuevas;
+	}
+
+	public void setCiudadesNuevas(List<SelectItem> ciudadesNuevas) {
+		this.ciudadesNuevas = ciudadesNuevas;
+	}
+
+	public List<SelectItem> getNotificacionTipos() {
+		return notificacionTipos;
+	}
+
+	public void setNotificacionTipos(List<SelectItem> notificacionTipos) {
+		this.notificacionTipos = notificacionTipos;
+	}
+
 	public void setIdRelacionEntidades(List<selecteme> idRelacionEntidades) {
 		this.idRelacionEntidades = idRelacionEntidades;
 	}
@@ -89,25 +111,37 @@ public class Notificacionbean implements Serializable {
 
 	public void filtrarEntidades() {
 		idRelacionEntidades = new ArrayList<selecteme>();
+		relacionEntidades = new ArrayList<SelectItem>();
 		if(ciudadSeleccionada!=null && !ciudadSeleccionada.equals("")){
 			for(selecteme ent: idRelacionEntidadesOrg)
-				if(ent.getIdCiudad().equals(ciudadSeleccionada))
-					idRelacionEntidades.add(ent);
+			{
+				if(ent.getIdCiudad().equals(ciudadSeleccionada)){
+					idRelacionEntidades.add(new selecteme(ent.getCodigo(), ent.getNombre(), ent.getIdCiudad()));
+					relacionEntidades.add(new SelectItem(ent.getCodigo(), ent.getNombre(), ent.getIdCiudad()));
+				}					
+			}
 			
 		}else{
 			System.out.println("NADA");
 		}
 		System.out.println(idRelacionEntidades.size());
 	}
-	
+
 	public void filtrarEntidadesEditar() {
+		System.out.println("Entro a Filtrar Entidades Editar");
 		idRelacionEntidades = new ArrayList<selecteme>();
+		relacionEntidades = new ArrayList<SelectItem>();
 		ciudadSeleccionada = actual.getEntidad().getIdCiudad();
 		actual.getEntidad().setIdCiudad("");
 		if(ciudadSeleccionada!=null && !ciudadSeleccionada.equals("")){
 			for(selecteme ent: idRelacionEntidadesOrg)
+			{
 				if(ent.getIdCiudad().equals(ciudadSeleccionada))
+				{
 					idRelacionEntidades.add(ent);
+					System.out.println("VALOR: "+ent.getCodigo()+" - "+ent.getNombre()+" - "+ent.getIdCiudad());
+				}
+			}
 			
 		}else{
 			System.out.println("NADA");
@@ -198,12 +232,14 @@ public class Notificacionbean implements Serializable {
 
 	public Notificacionbean() throws SQLException {
 		idNotificacionTipos = new ArrayList<selecItem>();
+		notificacionTipos = new ArrayList<SelectItem>();
 		ResultSet rs1 = Controller.selecNotificacionTipo();
 		selecTipo(rs1);
 		idRelacionEntidadesOrg = new ArrayList<selecteme>();
 		ResultSet rs = Controller.selecRelacion();
 		slectRela(rs);
 		ciudades = new ArrayList<selecMete>();
+		ciudadesNuevas = new ArrayList<SelectItem>();
 		ResultSet rs2 =Controller.selecCiudad();
 		selecCiudad(rs2);
 		ciudadActual = new selecMete();
@@ -219,6 +255,7 @@ public class Notificacionbean implements Serializable {
 		ResultSet rs = Controller.selecRelacion();
 		slectRela(rs);
 		ciudades = new ArrayList<selecMete>();
+		ciudadesNuevas = new ArrayList<SelectItem>();
 		ResultSet rs2 =Controller.selecCiudad();
 		selecCiudad(rs2);
 		ciudadActual = new selecMete();
@@ -227,7 +264,7 @@ public class Notificacionbean implements Serializable {
 	private void selecCiudad(ResultSet result) {
 		try {
 			if (result != null) {
-				for (; result.next(); ciudades.add(new selecMete(
+				for (; result.next(); ciudadesNuevas.add(new SelectItem(
 						result.getString(1), result.getString(2)))) {
 				}
 			} else {
@@ -242,7 +279,7 @@ public class Notificacionbean implements Serializable {
 	private void selecTipo(ResultSet result) {
 		try {
 			if (result != null) {
-				for (; result.next(); idNotificacionTipos.add(new selecItem(
+				for (; result.next(); notificacionTipos.add(new SelectItem(
 						result.getString(1), result.getString(2)))) {
 				}
 			} else {
@@ -423,11 +460,11 @@ public class Notificacionbean implements Serializable {
 
 	public void agregarActuacion(){
 		if(descripcion == null || descripcion.equals("")){
-			FacesMessageUtil.error(FacesContext.getCurrentInstance(),"Debe Agregar una Actuacion");
+			FacesMessageUtil.error(FacesContext.getCurrentInstance(),"Debe Agregar una Actuación");
 			return;
 		}else{
 			Controller.agregarActuacion(descripcion);
-			FacesContext.getCurrentInstance().addMessage("Succesful",new FacesMessage("Actucion Agregada con exito"));
+			FacesContext.getCurrentInstance().addMessage("Succesful",new FacesMessage("Actuación Agregada con exito"));
 		}
 		
 	}
@@ -444,4 +481,39 @@ public class Notificacionbean implements Serializable {
 		}
 		return true;
 	}
+
+	public List<SelectItem> getCiudadesItems() throws SQLException {
+		ciudadesItems = new ArrayList<SelectItem>();
+		ResultSet result =Controller.selecCiudad();
+		if (result != null) {
+			for (; result.next(); ciudadesItems.add(new SelectItem(
+					result.getString(1), result.getString(2)))) {
+			}
+		} else {
+			System.out.println("no ahy coincidencias de busqueda");
+		}
+				
+		return ciudadesItems;
+	}	
+	
+	public void setCiudadesItems(List<SelectItem> ciudadesItems) {
+		this.ciudadesItems = ciudadesItems;
+	}
+	public List<selecItem> getRelacionEntidadesOrg() {
+		return RelacionEntidadesOrg;
+	}
+
+	public void setRelacionEntidadesOrg(List<selecItem> relacionEntidadesOrg) {
+		RelacionEntidadesOrg = relacionEntidadesOrg;
+	}
+
+	public List<SelectItem> getRelacionEntidades() {
+		return relacionEntidades;
+	}
+
+	public void setRelacionEntidades(List<SelectItem> relacionEntidades) {
+		this.relacionEntidades = relacionEntidades;
+	}
+	
+	
 }
