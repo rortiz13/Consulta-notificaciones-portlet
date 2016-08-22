@@ -18,15 +18,15 @@
 				<f:selectItems value="#{Notificacionbean.ciudadesNuevas}" />				
 			</h:selectOneMenu>			
 			<h:outputText value="Corporacion o Especialidad" />
-			<h:selectOneMenu id="corporacion" value="#{Notificacionbean.idRelacionEntidad}" size="140" required="true" requiredMessage="Es necesario escoger una Corporacion o Especialidad">
+			<h:selectOneMenu id="corporacion" value="#{Notificacionbean.idRelacionEntidad}"  required="true" requiredMessage="Es necesario escoger una Corporacion o Especialidad">
 				<f:selectItem itemLabel="Seleccione " itemValue="" />  
 	            <f:selectItems value="#{Notificacionbean.relacionEntidades}"/>
 			</h:selectOneMenu> 
 			<h:outputText value="Tipo de Actuacion" />
-			<p:selectOneMenu value="#{Notificacionbean.idNotificacionTipo}" required="true" requiredMessage="Es necesario escoger un Tipo de actuacion ">
+			<h:selectOneMenu value="#{Notificacionbean.idNotificacionTipo}" required="true" requiredMessage="Es necesario escoger un Tipo de actuacion ">
 				<f:selectItem itemLabel="Seleccione " itemValue="" />  
 	            <f:selectItems value="#{Notificacionbean.notificacionTipos}" />
-			</p:selectOneMenu> 
+			</h:selectOneMenu> 
 			<h:outputText value="Codigo " />
 			<p:inputMask value="#{Notificacionbean.codigo}" mask="9?9999999999999" maxlength="15" size="40" required="true" requiredMessage="Es necesario digitar un Codigo"/> 
 			<p:commandButton ajax="false" action="#{Notificacionbean.enviarNotificacion}" value="Guardar" ></p:commandButton>
