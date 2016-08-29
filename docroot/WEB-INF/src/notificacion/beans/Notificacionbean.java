@@ -37,7 +37,6 @@ public class Notificacionbean implements Serializable {
 	private String codigo;
 	private String ciudadSeleccionada;
 	private String idRelacionEntidad;
-	private List<selecItem> idNotificacionTipos;
 	private List<SelectItem> notificacionTipos;
 	private List<selecteme> idRelacionEntidades;
 	private List<SelectItem> relacionEntidades;
@@ -59,7 +58,7 @@ public class Notificacionbean implements Serializable {
 	public void setCiudadesNuevas(List<SelectItem> ciudadesNuevas) {
 		this.ciudadesNuevas = ciudadesNuevas;
 	}
-
+	
 	public List<SelectItem> getNotificacionTipos() {
 		return notificacionTipos;
 	}
@@ -116,7 +115,7 @@ public class Notificacionbean implements Serializable {
 			for(selecteme ent: idRelacionEntidadesOrg)
 			{
 				if(ent.getIdCiudad().equals(ciudadSeleccionada)){
-					idRelacionEntidades.add(new selecteme(ent.getCodigo(), ent.getNombre(), ent.getIdCiudad()));
+					//idRelacionEntidades.add(new selecteme(ent.getCodigo(), ent.getNombre(), ent.getIdCiudad()));
 					relacionEntidades.add(new SelectItem(ent.getCodigo(), ent.getNombre(), ent.getIdCiudad()));
 				}					
 			}
@@ -131,15 +130,18 @@ public class Notificacionbean implements Serializable {
 		System.out.println("Entro a Filtrar Entidades Editar");
 		idRelacionEntidades = new ArrayList<selecteme>();
 		relacionEntidades = new ArrayList<SelectItem>();
-		ciudadSeleccionada = actual.getEntidad().getIdCiudad();
+		ciudadSeleccionada = this.actual.getEntidad().getIdCiudad();
+		codigo = this.actual.getCodigo();
+		//Notificacionbean.actual.tipo.codigo
+		this.actual.setIdNotificacionTipo(this.actual.getIdNotificacionTipo());
+		System.out.println("ID: "+this.actual.getIdNotificacionTipo());
 		actual.getEntidad().setIdCiudad("");
 		if(ciudadSeleccionada!=null && !ciudadSeleccionada.equals("")){
 			for(selecteme ent: idRelacionEntidadesOrg)
 			{
 				if(ent.getIdCiudad().equals(ciudadSeleccionada))
 				{
-					idRelacionEntidades.add(ent);
-					System.out.println("VALOR: "+ent.getCodigo()+" - "+ent.getNombre()+" - "+ent.getIdCiudad());
+					relacionEntidades.add(new SelectItem(ent.getCodigo(), ent.getNombre(), ent.getIdCiudad()));
 				}
 			}
 			
@@ -166,11 +168,13 @@ public class Notificacionbean implements Serializable {
 
 	public void setActual(ListaNotificacion actual) {
 		this.actual = getNotificacion(actual.getIdNotificacion());
-		this.actual.setTipo(getTipoNombre(this.actual.getIdNotificacionTipo()));
+		System.out.println("ID: "+this.actual.getTipo());
 		this.actual.setEntidad(getEntidad(this.actual.getIdRelacionEntidad()));
 		ciudadSeleccionada = actual.getEntidad().getIdCiudad();
 		ciudadActual = getCiudad(ciudadSeleccionada);
-		filtrarEntidades();
+		codigo = this.actual.getCodigo();
+		idNotificacionTipo = this.actual.getTipo();
+		filtrarEntidades();		
 		System.out.println(this.actual);
 	}
 
@@ -181,15 +185,7 @@ public class Notificacionbean implements Serializable {
 	public void setListado(List<ListaNotificacion> listado) {
 		this.listado = listado;
 	}
-
-	public List<selecItem> getIdNotificacionTipos() {
-		return idNotificacionTipos;
-	}
-
-	public void setIdNotificacionTipos(List<selecItem> idNotificacionTipos) {
-		this.idNotificacionTipos = idNotificacionTipos;
-	}
-
+	
 	public List<selecteme> getIdRelacionEntidades() {
 		return idRelacionEntidades;
 	}
@@ -231,7 +227,6 @@ public class Notificacionbean implements Serializable {
 	}
 
 	public Notificacionbean() throws SQLException {
-		idNotificacionTipos = new ArrayList<selecItem>();
 		notificacionTipos = new ArrayList<SelectItem>();
 		ResultSet rs1 = Controller.selecNotificacionTipo();
 		selecTipo(rs1);
@@ -248,7 +243,7 @@ public class Notificacionbean implements Serializable {
 	
 	public void cargarRelacion(){
 		System.out.println("entro en cargar relacion");
-		idNotificacionTipos = new ArrayList<selecItem>();
+		notificacionTipos = new ArrayList<SelectItem>();
 		ResultSet rs1 = Controller.selecNotificacionTipo();
 		selecTipo(rs1);
 		idRelacionEntidadesOrg = new ArrayList<selecteme>();
@@ -380,9 +375,14 @@ public class Notificacionbean implements Serializable {
 	public void editar(){
 		System.out.println("codigo editar "+actual.getCodigo());
 		Controller.editar(actual);
-		listado = null;
+		//listado = null;
+		//setActual(actual);
 		try {
+			idNotificacionTipo = actual.getTipo();
+			codigo = actual.getCodigo();
+			idRelacionEntidad = actual.getEntidad().getCodigo();
 			cargar();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -406,10 +406,10 @@ public class Notificacionbean implements Serializable {
 			if(s.getIdNotificacion().equals(idNotificacion))
 				return s;
 		}
-		return new ListaNotificacion("", "", "", "", "", new selecItem("", ""), new selecteme("", "", ""));
+		return new ListaNotificacion("", "", "", "", "", "", new selecteme("", "", ""));
 	}
 	
-	public selecItem getTipoNombre(String idTipo){
+	/*public selecItem getTipoNombre(String idTipo){
 		for(selecItem s: idNotificacionTipos){
 			if(s.getNombre().equals(idTipo)){
 				return s;
@@ -421,9 +421,19 @@ public class Notificacionbean implements Serializable {
 				return s;
 			}
 		}
-		return new selecItem("", "");
-	}
-	
+		return new selecItem("","");
+	}*/
+	/*public String getTipo(String tipoN){
+		System.out.println("TipoN: "+tipoN);
+		for(SelectItem s: notificacionTipos){
+			System.out.println("getNombre: "+s.getLabel()+" getCodigo: "+s.getValue());
+			/*if(s.getNombre().equals(tipoN)){
+				return s.getCodigo();
+			}
+		}
+		
+		return "";
+	}*/
 	public selecMete getCiudad(String Ciudad){
 		for(selecMete s: ciudades){
 			if(s.getNombre().equals(Ciudad)){
@@ -432,7 +442,7 @@ public class Notificacionbean implements Serializable {
 		}
 		return ciudad;
 	}
-	
+
 	public String getCiudadNombre(String idCiudad) {
 		for(selecMete s: ciudades){
 			if(s.getCodigo().equals(idCiudad))
@@ -451,7 +461,7 @@ public class Notificacionbean implements Serializable {
 													result.getString(5),
 													result.getString(4),
 													result.getString(1),
-													getTipoNombre(result.getString(2)),
+													result.getString(7),
 													getEntidad(result.getString(4))
 													));
 			}
@@ -471,12 +481,12 @@ public class Notificacionbean implements Serializable {
 	
 	public boolean validarNotificacion() throws SQLException {
 		listarNotificacion(Controller.listado(""));
-		actual = new ListaNotificacion("",idNotificacionTipo,codigo,idRelacionEntidad,getCiudadNombre(ciudadSeleccionada),getTipoNombre(idNotificacionTipo),getEntidad(idRelacionEntidad));
+		actual = new ListaNotificacion("",idNotificacionTipo,codigo,idRelacionEntidad,getCiudadNombre(ciudadSeleccionada),idNotificacionTipo,getEntidad(idRelacionEntidad));
 		System.out.println(actual);
 		for(ListaNotificacion i:listado){
 			if(	actual.getCodigo().trim().equals(i.getCodigo().trim()) &&
 				actual.getEntidad().getCodigo().trim().equals(i.getEntidad().getCodigo().trim()) &&
-				actual.getTipo().getCodigo().trim().equals(i.getTipo().getCodigo().trim()))
+				actual.getTipo().equals(i.getTipo()))
 					return false;
 		}
 		return true;

@@ -34,7 +34,7 @@ public static ResultSet selecNotificacionTipo(){
 
 public static ResultSet selecRelacion(){
 	
-	String sql ="select * from T081BRESPEENTI ";
+	String sql ="select * from T081BRESPEENTI order by A081DESCENESP ASC";
 	try {
 		
 		ResultSet result;			
@@ -104,7 +104,7 @@ public static ResultSet selecCiudad(){
 					"from NotificacionCodigo nc, T081BRESPEENTI t,T065BACIUDGENE c, NotificacionTipo nt "+
 					"where nc.IdNotificacionTipo = nt.IDNOTIFICACIONTIPO "+
 					"and nc.IdRelacionEntidad = t.IdRelacionEntidad "+
-					"and t.A081CODICIUD = c.A065CODICIUD" + filtros;
+					"and t.A081CODICIUD = c.A065CODICIUD" + filtros +" order by t.A081DESCENESP ASC";
 		System.out.println(sql);
 		try {
 			
@@ -146,7 +146,7 @@ public static ResultSet selecCiudad(){
 			System.out.println("codigo editar contrller "+row.getCodigo());
 			String sql = "";
 	        sql = 	" update NotificacionCodigo "+
-	        		" set idnotificaciontipo = "+row.getTipo().getCodigo() +
+	        		" set idnotificaciontipo = "+row.getTipo() +
 	        		" ,codigo = '"+row.getCodigo() +
 	        		"' ,idRelacionEntidad = "+row.getEntidad().getCodigo() +
 	        		" where idNotificacionCodigo = "+row.getIdNotificacion();

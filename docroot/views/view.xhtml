@@ -39,8 +39,8 @@
 					</h:selectOneMenu>
 					<h:outputText value="Tipo de Actuacion" />
 					<h:selectOneMenu value="#{Notificacionbean.idNotificacionTipo}">
-						<f:selectItem itemLabel="Seleccione " itemValue="" />
-						<f:selectItems value="#{Notificacionbean.notificacionTipos}" />
+						<f:selectItem itemLabel="Seleccione " itemValue="" />  
+			            <f:selectItems value="#{Notificacionbean.notificacionTipos}" />
 					</h:selectOneMenu>
 					<h:outputLabel value="Codigo" />
 					<p:inputMask value="#{Notificacionbean.codigo}" mask="9?9999999999999" maxlength="15" size="60" />
@@ -98,49 +98,49 @@
 		</h:form>
 		</p:dialog> 
 		<p:dialog header="Editar Notificacion" widgetVar="dlg2" modal="true" height="100%">
-			   			 <h:form id="editarNotificacionForm" prependId="false">
-							<p:panel>
-								<p:panelGrid columns="2">
-									<h:outputText value="Ciudad"/>
-									<h:selectOneMenu id="ciudad" value="#{Notificacionbean.actual.entidad.idCiudad}">
-										<f:ajax listener="#{Notificacionbean.filtrarEntidadesEditar}" render="corporacioneditar"/>
-										<f:selectItem itemLabel="Seleccione" itemValue="" />
-										<f:selectItems value="#{Notificacionbean.ciudadesNuevas}" />				
-									</h:selectOneMenu>
-									<h:outputText value="Corporacion o Especialidad" />
-									<h:selectOneMenu id="corporacioneditar" value="#{Notificacionbean.actual.entidad.codigo}">
-										<f:selectItem itemLabel="Seleccione " itemValue="" size="40" />
-										<f:selectItems value="#{Notificacionbean.relacionEntidades}" />
-									</h:selectOneMenu>
-									<h:outputText value="Tipo Notificacion" />
-									<h:selectOneMenu value="#{Notificacionbean.actual.tipo.codigo}">
-										<f:selectItem itemLabel="Seleccione " itemValue="" />
-										<f:selectItems value="#{Notificacionbean.notificacionTipos}" />
-									</h:selectOneMenu>
-									<h:outputText value="Codigo " />
-									<p:inputMask value="#{Notificacionbean.actual.codigo}" mask="9?9999999999999" maxlength="15"  size="40"/>
-								</p:panelGrid>
-								<br/>
-								<p:commandButton ajax="false" actionListener="#{Notificacionbean.editar}" value="Actualizar"></p:commandButton>
-							</p:panel>
-							<h:messages />
-						</h:form>
-					</p:dialog> 
-					<p:dialog header="Agregar Actuacion" widgetVar="dlg3" modal="true" height="100%">
-							<h:form id="AgregarActuacionForm" prependId="false">
-								<p:panel>
-									<p:panelGrid columns="2">
-										<h:outputText value="Tipo de Actuacion" />
-										<h:inputText value="#{Notificacionbean.descripcion}" required="true" requiredMessage="Es necesario digitar un Tipo de actuacion"/>
-									</p:panelGrid>	
-									<br/>
-									<div align="center">		
-										<p:commandButton ajax="false" actionListener="#{Notificacionbean.agregarActuacion}" value="Agregar"></p:commandButton>
-									</div>
-								<h:messages/>			
-								</p:panel>
-							</h:form>
-					</p:dialog>
+	   			 <h:form id="editarNotificacionForm" prependId="false">
+					<p:panel>
+						<p:panelGrid columns="2">
+							<h:outputText value="Ciudad"/>
+							<h:selectOneMenu id="ciudad" value="#{Notificacionbean.actual.entidad.idCiudad}">
+								<f:ajax listener="#{Notificacionbean.filtrarEntidadesEditar}" render="corporacioneditar"/>
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItems value="#{Notificacionbean.ciudadesNuevas}" />				
+							</h:selectOneMenu>
+							<h:outputText value="Corporacion o Especialidad" />
+							<h:selectOneMenu id="corporacioneditar" value="#{Notificacionbean.actual.entidad.codigo}">
+								<f:selectItem itemLabel="Seleccione " itemValue="" />
+								<f:selectItems value="#{Notificacionbean.relacionEntidades}" />
+							</h:selectOneMenu>
+							<h:outputText value="Tipo Notificacion" />
+							<h:selectOneMenu value="#{Notificacionbean.actual.tipo}">
+								<f:selectItem itemLabel="Seleccione " itemValue="" />
+								<f:selectItems value="#{Notificacionbean.notificacionTipos}" />
+							</h:selectOneMenu>
+							<h:outputText value="Codigo " />
+							<p:inputMask value="#{Notificacionbean.actual.codigo}" mask="9?9999999999999" maxlength="15"  size="40"/>
+						</p:panelGrid>
+						<br/>
+						<p:commandButton ajax="false" actionListener="#{Notificacionbean.editar}" value="Actualizar"></p:commandButton>
+					</p:panel>
+					<h:messages />
+				</h:form>
+			</p:dialog> 
+			<p:dialog header="Agregar Actuacion" widgetVar="dlg3" modal="true" height="100%">
+					<h:form id="AgregarActuacionForm" prependId="false">
+						<p:panel>
+							<p:panelGrid columns="2">
+								<h:outputText value="Tipo de Actuacion" />
+								<h:inputText value="#{Notificacionbean.descripcion}" required="true" requiredMessage="Es necesario digitar un Tipo de actuacion"/>
+							</p:panelGrid>	
+							<br/>
+							<div align="center">		
+								<p:commandButton ajax="false" actionListener="#{Notificacionbean.agregarActuacion}" value="Agregar"></p:commandButton>
+							</div>
+						<h:messages/>			
+						</p:panel>
+					</h:form>
+			</p:dialog>
 		
 	
 	</h:body>

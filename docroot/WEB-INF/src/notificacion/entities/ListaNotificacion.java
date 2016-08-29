@@ -6,7 +6,7 @@ public class ListaNotificacion {
 	private String codigo;
 	private String idRelacionEntidad;
 	private String ciudad;
-	private selecItem tipo;
+	private String tipo;
 	
 	
 	
@@ -16,10 +16,10 @@ public class ListaNotificacion {
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
-	public selecItem getTipo() {
+	public String getTipo() {
 		return tipo;
 	}
-	public void setTipo(selecItem tipo) {
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 	public selecteme getEntidad() {
@@ -60,7 +60,7 @@ public class ListaNotificacion {
 								String codigo,
 								String idRelacionEntidad,
 								String ciudad,
-								selecItem tipo,
+								String tipo,
 								selecteme entidad) {
 		this.idNotificacion = idNotificacion;
 		this.idNotificacionTipo = idNotificacionTipo;
@@ -75,7 +75,7 @@ public class ListaNotificacion {
 	public String toString(){
 		return "idNotificacion: "+idNotificacion+"" +
 				"\nCodigo: "+codigo+"" +
-			    "\nTipo: ("+tipo.getCodigo()+":"+tipo.getNombre()+")" +
+			    "\nTipo: ("+tipo+")" +
 			    "\nEntidad: ("+entidad.getCodigo()+":"+entidad.getNombre()+")";
 		
 	}
